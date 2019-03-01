@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.VideoView;
 
+import java.util.Random;
+
 import master.flame.danmaku.controller.DrawHandler;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
 import master.flame.danmaku.danmaku.model.DanmakuTimer;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void prepared() {//5、设定为显示弹幕，并开启弹幕
                 showDanmaku=true;
                 mKuViewMainBarrage.start();
+                generateDanmaku();
             }
             @Override
             public void updateTimer(DanmakuTimer timer) {
@@ -144,4 +147,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mKuViewMainBarrage.addDanmaku(danmaku);//将弹幕添加到弹幕视图控件中去
     }
 
+    /**
+     * 产生随机数弹幕
+     */
+    private  void generateDanmaku(){
+        new Thread(new Runnable() {//匿名线程
+            @Override
+            public void run() {
+                while (showDanmaku){//死循环
+                    int num=new Random().nextInt(300);//随机产生0-300的整数
+                    String context=""+num;//转换为String
+                    addDanmaku(context,false);//调用弹幕函数
+                    try{
+                        Thread.sleep(num);//线程休眠
+                    }catch (InterruptedException e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+    }
 }
