@@ -55,14 +55,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mEdtTxtMainInput = (EditText) findViewById(R.id.edtTxt_main_input);
         mBtnMainSend = (Button) findViewById(R.id.btn_main_send);
         mLinlayMainBottom = (LinearLayout) findViewById(R.id.linlay_main_bottom);
-
+        mLinlayMainBottom.setVisibility(View.GONE);
         mBtnMainSend.setOnClickListener(this);
+        mKuViewMainBarrage.setOnClickListener(this);
     }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_main_send:
                 submit();
+                break;
+            case R.id.kuView_main_barrage://点击弹幕时触发
+                if(mLinlayMainBottom.getVisibility()==View.GONE){//如果当前是隐藏
+                    mLinlayMainBottom.setVisibility(View.VISIBLE);//则设置为显示
+                }else {
+                    mLinlayMainBottom.setVisibility(View.GONE);//否则隐藏输入栏
+                }
                 break;
         }
     }
